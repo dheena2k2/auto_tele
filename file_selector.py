@@ -7,13 +7,13 @@ import sys
 client = TelegramClient('dheena', credentials.api_id, credentials.api_hash)
 
 
-async def select_media(channel_name, destination, common_substring='', append=False):
+async def select_media(channel_name, destination, start_substring='', append=False):
     """
     Create or append pending.txt file which contains pending
     downloads
     :param channel_name: channel's unique name
     :param destination: destination/save directory path
-    :param common_substring: substring that all required files share
+    :param start_substring: substring that the start file name have
     :param append: whether to append to previous pending.txt
     :return: None
     """
@@ -27,9 +27,12 @@ async def select_media(channel_name, destination, common_substring='', append=Fa
     else:
         file = open(pending_file_path, 'w')
 
+    is_requested_message = False
     async for message in client.iter_messages(channel, reverse=True):
         if message.media:  # if media exists
-            if message.file.name and common_substring in message.file.name:
+            if message.file.name and start_substring in message.file.name and not is_requested_message:
+                is_requested_message = True
+            if is_requested_message:
                 print('Confirm action (y/n/e) for:')  # options indicate yes, no and exit
                 print(message.file.name)
                 option = input()
@@ -82,7 +85,6 @@ if __name__ == '__main__':
             to_append = False
         else:
             to_append = True
-        client.loop.run_until_complete(select_media(channel_name=channel_id_name,
-                                                    destination=destination_dir,
-                                                    common_substring=common_str,
-                                                    append=to_append))
+        client.loop.run_until_complete(
+            select_media(channel_name=channel_id_name, destination=destination_dir, start_substring=common_str,
+                         append=to_append))
