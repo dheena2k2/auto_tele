@@ -42,7 +42,7 @@ async def select_media(channel_name, destination, start_substring='', append=Fal
                     break
                 if option == 'n' or option == 'N':
                     continue
-                write_line = '%d %d\n' % (channel.id, message.id)  # write channel id and message id to file
+                write_line = '%s %d\n' % (channel_name, message.id)  # write channel id and message id to file
                 file.write(write_line)
 
     file.close()
