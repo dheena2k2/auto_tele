@@ -1,7 +1,7 @@
 from telethon import TelegramClient
 import credentials  # contains api_id and api_hash
 import os
-from helper import ProgressBar
+from helper import ProgressBar, wait_till_12am
 import sys
 
 
@@ -48,6 +48,14 @@ async def download_media(destination):
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         raise SyntaxError('Need destination directory name as argument')
+
+    if len(sys.argv) > 2:
+        wait = sys.argv[2]
+        if wait[:2] == 'mn':
+            offset = 0
+            if len(wait) > 3:
+                offset = int(wait[3:])
+            wait_till_12am(offset)
 
     destination_dir = sys.argv[1]
     client.loop.run_until_complete(download_media(destination_dir))
