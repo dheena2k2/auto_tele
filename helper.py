@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 from tqdm import tqdm
 
@@ -19,3 +19,14 @@ def wait_till(target):
     remaining_seconds = (target - now).seconds
     if remaining_seconds > 0:
         time.sleep(remaining_seconds)
+
+
+def wait_till_12am(offset=0):
+    """
+    Waits until 12 AM
+    :param offset: offset minutes to add to 12 AM
+    :return: None
+    """
+    n = datetime.now()
+    target = datetime(n.year, n.month, n.day+1) + timedelta(minutes=offset)
+    wait_till(target)
