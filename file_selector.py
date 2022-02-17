@@ -5,6 +5,7 @@ import sys
 
 
 client = TelegramClient('dheena', credentials.api_id, credentials.api_hash)
+await client.connect()
 
 
 async def select_media(channel_name, destination, common_substring='', append=False):
@@ -18,7 +19,6 @@ async def select_media(channel_name, destination, common_substring='', append=Fa
     :return: None
     """
     global client
-    await client.connect()
     channel = await client.get_entity(channel_name)
 
     pending_file_path = os.path.join(destination, 'pending.txt')
