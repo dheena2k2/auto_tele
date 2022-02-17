@@ -33,6 +33,8 @@ async def select_media(channel_name, destination, common_substring='', append=Fa
                 print('Confirm action (y/n/e) for:')  # options indicate yes, no and exit
                 print(message.file.name)
                 option = input()
+                while option not in ['e', 'E', 'n', 'N', 'y', 'Y']:
+                    option = input()
                 if option == 'e' or option == 'E':
                     break
                 if option == 'n' or option == 'N':
