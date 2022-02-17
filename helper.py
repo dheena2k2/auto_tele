@@ -18,6 +18,7 @@ def wait_till(target):
     now = datetime.now()
     remaining_seconds = (target - now).seconds
     if remaining_seconds > 0:
+        print('Waiting till', target.strftime('%H:%M'))
         time.sleep(remaining_seconds)
 
 
